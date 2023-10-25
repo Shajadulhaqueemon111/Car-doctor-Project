@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import img from '../../src/assets/images/login/login.svg'
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../Components/AuthProvider/AuthProvider';
+import Swal from 'sweetalert2';
 const SingUp = () => {
 
     const{userSingUP}=useContext(AuthContext)
@@ -12,6 +13,22 @@ const SingUp = () => {
         const email=e.target.email.value;
         const password=e.target.password.value;
 
+        if (password.length < 6) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Password should be at least 6 characters long!',
+            footer: '<a href="">Why do I have this issue?</a>'
+          })
+        }else{
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Your work has been saved',
+            showConfirmButton: false,
+            timer: 1500
+          })
+        }
         const user={
             name,email,password
         }
