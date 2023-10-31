@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import ServiceCard from './ServiceCard';
+import useServices from '../../useServices';
 
 const Services = () => {
 
-    const [services,setService]=useState([])
+    const services=useServices()
+    // const [services,setService]=useState([])
 
-    useEffect(()=>{
+    // useEffect(()=>{
 
-        fetch('http://localhost:5000/services')
-        .then(res=>res.json())
-        .then(data=>setService(data))
-    },[])
+    //     fetch(' https://car-doctor-server-jajwwg2gc-md-emons-projects.vercel.app/services')
+    //     .then(res=>res.json())
+    //     .then(data=>setService(data))
+    // },[])
     return (
         <div>
             <div className='text-center mt-4'>

@@ -2,19 +2,25 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../Components/AuthProvider/AuthProvider';
 import BooksCard from './BooksCard';
 import Swal from 'sweetalert2';
+import axios from 'axios';
 
 const Bookings = () => {
     const { user } = useContext(AuthContext)
 
     const [bookings, setBookings] = useState([])
-    const url = (`http://localhost:5000/bookings?email=${user?.email}`)
+    const url = (` https://car-doctor-server-jajwwg2gc-md-emons-projects.vercel.app/bookings?email=${user?.email}`)
 
     useEffect(() => {
-        fetch(url)
-            .then(res => res.json())
-            .then(data => setBookings(data)
 
-            )
+      axios.get(url,{withCredentials:true})
+      .then(res=>{
+        setBookings(res.data)
+      })
+        // fetch(url,{withCredentials:true})
+        //     .then(res => res.json())
+        //     .then(data => setBookings(data)
+
+        //     )
     }, [])
     const handelDelete=(id)=>{
       Swal.fire({
@@ -27,7 +33,7 @@ const Bookings = () => {
           confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
           if (result.isConfirmed) {
-              fetch(`http://localhost:5000/bookings/${id}`,{
+              fetch(` https://car-doctor-server-jajwwg2gc-md-emons-projects.vercel.app/bookings/${id}`,{
                   method:"DELETE"
               })
               .then(res=>res.json())
@@ -59,7 +65,7 @@ const Bookings = () => {
           confirmButtonText: 'Yes, Confirm it!'
         }).then((result) => {
           if (result.isConfirmed) {
-              fetch(`http://localhost:5000/bookings/${id}`,{
+              fetch(` https://car-doctor-server-jajwwg2gc-md-emons-projects.vercel.app/bookings/${id}`,{
                   method:"PATCH",
                   headers:{
                     "Content-Type":"application/json"
@@ -99,14 +105,16 @@ const Bookings = () => {
           <label>
             <input type="checkbox" className="checkbox" />
           </label>
-        </th>
+         
         <th className="py-2 text-blue-500">Image</th>
         <th className="py-2 text-blue-500">Name</th>
         <th className="py-2 text-green-500">service</th>
         <th className="py-2 text-green-500">DAte</th>
         <th className="py-2">Gmail</th>
         <th className="py-2">Price</th>
+        </th>
       </tr>
+    
     </thead>
     <tbody>
       {bookings?.map((booking) =><BooksCard key={booking._id}
